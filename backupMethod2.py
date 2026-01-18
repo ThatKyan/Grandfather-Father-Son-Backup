@@ -9,7 +9,7 @@ TIMEZONE = timezone.utc
 BACKUP_SOURCE = r"C:\Users\Kyan\Pictures"
 BACKUP_DESTINATION = r"Z:\replicatedFile"
 
-
+NOTIFY_EMAIL = None
 
 current_time = datetime.now(TIMEZONE)
 time_since_to_backup = current_time - timedelta(days=1)
