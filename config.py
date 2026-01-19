@@ -1,8 +1,8 @@
 from datetime import timezone
 
 TIMEZONE = timezone.utc
-BACKUP_SOURCE = r"C:\Users\Kyan\Pictures"
-BACKUP_DESTINATION = r"Z:\replicatedFiless"
+BACKUP_SOURCE = r""
+BACKUP_DESTINATION = r""
 
 #Email details for notifcation
 SEND_EMAIL_NOTIFICATION = True
