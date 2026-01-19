@@ -1,15 +1,13 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import shutil
 import os
 import time
 import math
 
+from config import BACKUP_DESTINATION, BACKUP_SOURCE, TIMEZONE
 
-TIMEZONE = timezone.utc
-BACKUP_SOURCE = r"C:\Users\Kyan\Pictures"
-BACKUP_DESTINATION = r"Z:\replicatedFile"
+import emailHandler
 
-NOTIFY_EMAIL = None
 
 current_time = datetime.now(TIMEZONE)
 time_since_to_backup = current_time - timedelta(days=1)
@@ -21,7 +19,6 @@ month_in_year = current_time.month
 def filesFilter(directory, filesArray):
     filesToIgnore = []
     for file in filesArray:
-        #print(directory + "/" + file)
         this_file_path = directory + "/" + file
         file_stats = os.stat(this_file_path)
 
@@ -38,8 +35,6 @@ def filesFilter(directory, filesArray):
         else:
             filesToIgnore.append(file)
 
-     #   print(os.stat(this_file_path))
-
         print(file)        
 
     return filesToIgnore
@@ -49,6 +44,10 @@ def filesFilter(directory, filesArray):
 def backup(timesincetobackup:datetime, backup_folder_name:str):
 
     try:
+        if not os.path.isdir(BACKUP_DESTINATION):
+            raise Exception("Backup destination does not exist!")
+        
+
         backup_folder = BACKUP_DESTINATION + backup_folder_name
 
 
@@ -58,8 +57,11 @@ def backup(timesincetobackup:datetime, backup_folder_name:str):
 
         shutil.copytree(src=BACKUP_SOURCE, dst=backup_folder, ignore = filesFilter)
         print("Backup successful!")
-    except Exception:
+    except Exception as e:
         print("Backup failed!")
+        print("-> " + str(e))
+
+        emailHandler.send_email(str(e))
 
 
 
@@ -76,6 +78,3 @@ else:
     print("Doing son backup!")
     backup(timedelta(days=1), "Son" + str(day_in_week))
 
-
-
-backup(timedelta(days=7), "Father" + str(week_in_month))
