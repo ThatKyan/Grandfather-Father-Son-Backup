@@ -48,7 +48,7 @@ def backup(timesincetobackup:datetime, backup_folder_name:str):
             raise Exception("Backup destination does not exist!")
         
 
-        backup_folder = BACKUP_DESTINATION + "/" + backup_folder_name
+        backup_folder = BACKUP_DESTINATION + "\\" + backup_folder_name
         if os.path.isdir(backup_folder): # Remove old backup
             print("there is already folder, removing")
             shutil.rmtree(backup_folder)
