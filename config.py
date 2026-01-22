@@ -2,9 +2,10 @@ from datetime import timezone
 
 TIMEZONE = timezone.utc
 BACKUP_SOURCES = [
-    r"C:\Users\Kyan\Documents\BlenderFiles",
+    r"C:\My\Windows\Path",
+    r"C:\Another\Windows\Path",
 ]
-BACKUP_DESTINATION = r"Z:\replicatedFile"
+BACKUP_DESTINATION = r"Z:\StorageFolder"
 
 #Email details for notifcation, if no email set no email sent
 EMAIL = ""
