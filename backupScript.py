@@ -4,7 +4,7 @@ import os
 import time
 import math
 
-from config import BACKUP_DESTINATION, BACKUP_SOURCE, TIMEZONE
+from config import BACKUP_DESTINATION, BACKUP_SOURCES, TIMEZONE
 
 import emailHandler
 
@@ -48,15 +48,35 @@ def backup(timesincetobackup:datetime, backup_folder_name:str):
             raise Exception("Backup destination does not exist!")
         
 
-        backup_folder = BACKUP_DESTINATION + backup_folder_name
-
-
-        if os.path.isdir(backup_folder):
+        backup_folder = BACKUP_DESTINATION + "/" + backup_folder_name
+        if os.path.isdir(backup_folder): # Remove old backup
             print("there is already folder, removing")
             shutil.rmtree(backup_folder)
 
-        shutil.copytree(src=BACKUP_SOURCE, dst=backup_folder, ignore = filesFilter)
+
+        print(backup_folder)
+        for backupDirectory in BACKUP_SOURCES:
+            
+            if backupDirectory == "":
+                print("Backup source is empty! Skipping")
+                continue
+
+            if os.path.isdir(backupDirectory) == False:
+                print(f"Backup source ({backupDirectory}) does not exist!")
+
+
+            
+
+
+
+   
+
+            shutil.copytree(src=backupDirectory, dst=backup_folder, ignore = filesFilter)
+
+
         print("Backup successful!")
+
+
     except Exception as e:
         print("Backup failed!")
         print("-> " + str(e))
